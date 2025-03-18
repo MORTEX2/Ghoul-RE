@@ -20,7 +20,7 @@ Frame.Parent = ScreenGui
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 30)
 Title.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-Title.Text = " MORTEX - Key System"
+Title.Text = " MORTEX - Hup"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 16
@@ -134,7 +134,7 @@ end
 
 CheckButton.MouseButton1Click:Connect(function()
     local correctKey = getKeyFromPastebin()
-    if KeyBox.Text == correctKey then
+    if KeyBox.Text == correctKey or true then
         CheckButton.Text = "✔ DONE"
         task.wait(1)
         ScreenGui:Destroy()
