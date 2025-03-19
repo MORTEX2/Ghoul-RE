@@ -304,6 +304,106 @@ _G.ESP_ENABLED = false
 
 
 
+_G.openGifts = false 
+
+task.spawn(function()
+    local player = game.Players.LocalPlayer
+
+    while true do
+        if _G.openGifts then
+            local char = player.Character or player.CharacterAdded:Wait()
+            local hrp = char:WaitForChild("HumanoidRootPart")
+
+            local function getClosestGift()
+                local closestBox = nil
+                local closestDist = math.huge
+
+                for _, box in pairs(workspace:GetChildren()) do
+                    if box.Name == "giftbox_blend" and box:FindFirstChild("ClickDetector") then
+                        local part = box:FindFirstChildWhichIsA("BasePart")
+                        if part then
+                            local dist = (part.Position - hrp.Position).Magnitude
+                            if dist <= 7 and dist < closestDist then
+                                closestBox = box
+                                closestDist = dist
+                            end
+                        end
+                    end
+                end
+                return closestBox
+            end
+
+            while _G.openGifts do
+                local giftbox = getClosestGift()
+                if giftbox then
+                    local clickDetector = giftbox:FindFirstChild("ClickDetector")
+
+                    while _G.openGifts and clickDetector and (giftbox:GetPivot().Position - hrp.Position).Magnitude <= 7 do
+                        fireclickdetector(clickDetector)
+                        task.wait(0.1)
+                    end
+                else
+                end
+
+                task.wait(0.5)
+            end
+        else
+            task.wait(1) 
+        end
+    end
+end)
+task.spawn(function()
+    local player = game.Players.LocalPlayer
+    local vim = game:GetService("VirtualInputManager")
+    local guiService = game:GetService("GuiService")
+
+    while true do
+        if _G.openGifts then
+            local function getBagGui()
+                local bagGui = player.PlayerGui:FindFirstChild("BagGui")
+                if bagGui and bagGui:FindFirstChild("Frame") and bagGui.Frame:FindFirstChild("ItemsFrame") then
+                    return bagGui.Frame.ItemsFrame
+                end
+                return nil
+            end
+
+            local bagFrame = getBagGui()
+            if bagFrame then
+
+                while bagFrame and bagFrame.Parent and _G.openGifts do
+                    local topBtn, topY = nil, math.huge
+                    
+                    for _, btn in pairs(bagFrame:GetChildren()) do
+                        if btn:IsA("TextButton") and btn.Visible and btn.AbsolutePosition.Y < topY then
+                            topBtn, topY = btn, btn.AbsolutePosition.Y
+                        end
+                    end
+                    
+                    if not topBtn then
+                        break
+                    end
+                    
+                    local inset = guiService:GetGuiInset()
+                    local absPos = topBtn.AbsolutePosition + topBtn.AbsoluteSize / 2
+                    local realX = absPos.X + inset.X
+                    local realY = absPos.Y + inset.Y
+
+                    vim:SendMouseButtonEvent(realX, realY, 0, true, nil, 0)
+                    task.wait(0.05)
+                    vim:SendMouseButtonEvent(realX, realY, 0, false, nil, 0)
+
+                    task.wait(0.2)
+                end
+            end
+        end
+        task.wait(1) 
+    end
+end)
+
+
+
+
+
 
 
 
@@ -685,22 +785,11 @@ for i, tab in ipairs(Tabs) do
                         toggleSpeedHack(true) 
 
              
-                    elseif name == "Auto Accept Quests" then
-                        
-                        
-              
+                    elseif name == "Open Chest" then
+                        _G.openGifts = true
+                                        
                     elseif name == "Auto Block" then
-                        
-                        
-                 
-                        
-                        
-                        
-                        _G.AUTO_BLOCK = true
-                        
-                        
-                        
-                        
+                        _G.AUTO_BLOCK = true      
                     end
                 else
                     Button.Text = ""
@@ -713,8 +802,8 @@ for i, tab in ipairs(Tabs) do
                         
                         toggleSpeedHack(false) 
                       
-                    elseif name == "Auto Accept Quests" then
-                        
+                    elseif name == "Open Chest" then
+                        _G.openGifts = false 
                      
                     elseif name == "Auto Block" then
                         
@@ -729,6 +818,7 @@ for i, tab in ipairs(Tabs) do
         
         createToggleButton("ESP", 0)
         createToggleButton("Speed Hack", 30)
+        createToggleButton("Open Chest", 90)
       
         createToggleButton("Auto Block", 60)
     end
@@ -976,7 +1066,7 @@ local ts, ch = game:GetService("TweenService"), workspace.Entities:FindFirstChil
     local startTime = tick()
     local gainedFound = false
 
-    while tick() - startTime < 10 and _G.FARM1_ENABLED do
+    while tick() - startTime < 15 and _G.FARM1_ENABLED do
         local gui = player:FindFirstChild("PlayerGui")
         if gui then
             local notificationUI = gui:FindFirstChild("NotificationNew")
@@ -984,7 +1074,7 @@ local ts, ch = game:GetService("TweenService"), workspace.Entities:FindFirstChil
                 for _, template in ipairs(notificationUI.UI:GetChildren()) do
                     if template.Name == "Template" and template:FindFirstChild("TextLabel") then
                         if string.find(template.TextLabel.Text, "Gained") then
-                          
+                          task.wait(5)
                             gainedFound = true 
                             break 
                         end
