@@ -30,7 +30,7 @@ task.spawn(function()
                 cashLabel.Text = tostring(cashValue.Value)
             end
         end
-        task.wait(1) -- Update every second
+        task.wait(5) -- Update every second
     end
 end)
 
