@@ -16,6 +16,24 @@ Frame.BorderSizePixel = 2
 Frame.BorderColor3 = Color3.fromRGB(15, 15, 15)
 Frame.Parent = ScreenGui
 
+task.spawn(function()
+
+    while true do
+            local player = game.Players.LocalPlayer
+    local gui = player:WaitForChild("PlayerGui"):WaitForChild("HUD")
+    local cashLabel = gui:FindFirstChild("Cash")
+
+        local entity = workspace.Entities:FindFirstChild(player.Name)
+        if cashLabel and entity then
+            local cashValue = entity:FindFirstChild("Cash")
+            if cashValue and cashValue:IsA("IntValue") then
+                cashLabel.Text = tostring(cashValue.Value)
+            end
+        end
+        task.wait(1) -- Update every second
+    end
+end)
+
 
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 30)
