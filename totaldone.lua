@@ -1092,7 +1092,7 @@ local ts, ch = game:GetService("TweenService"), workspace.Entities:FindFirstChil
                 for _, template in ipairs(notificationUI.UI:GetChildren()) do
                     if template.Name == "Template" and template:FindFirstChild("TextLabel") then
                         if string.find(template.TextLabel.Text, "Gained") then
-                          task.wait(5)
+                          task.wait(8)
                             gainedFound = true 
                             break 
                         end
