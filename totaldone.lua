@@ -681,7 +681,7 @@ MainFrame.Parent = ScreenGui
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 30)
 Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Title.Text = "  Mortex | V1"
+Title.Text = "  Mortex | V1.2"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -978,16 +978,26 @@ end)
 
 
 
-local player = game.Players.LocalPlayer
-local character = workspace.Entities:FindFirstChild(player.Name)
-if not character then return end
 
-local torso = character:FindFirstChild("Torso")
-if torso and torso:IsA("BasePart") then
-    torso:Destroy() 
-    task.wait(2) 
-    
-end
+
+
+task.spawn(function()
+    while _G.FARM1_ENABLED do
+        local player = game.Players.LocalPlayer
+        local character = workspace.Entities:FindFirstChild(player.Name)
+        if not character then
+            task.wait(1)
+            continue
+        end
+
+        local torso = character:FindFirstChild("Torso")
+        if torso and torso:IsA("BasePart") then
+            torso:Destroy()
+            task.wait(2)
+        end
+        task.wait(1.5)
+    end
+end)
 
 
 
@@ -1038,15 +1048,10 @@ wait(2)
 
 
 
-while _G.FARM1_ENABLED do 
+while _G.FARM1_ENABLED do
     wait(0.5)
  
 
-local torso = character:FindFirstChild("Torso")
-if torso and torso:IsA("BasePart") then
-    torso:Destroy() 
-
-end
     
 local ts, ch = game:GetService("TweenService"), workspace.Entities:FindFirstChild(game.Players.LocalPlayer.Name)
     if not ch then continue end 
@@ -1100,6 +1105,11 @@ local ts, ch = game:GetService("TweenService"), workspace.Entities:FindFirstChil
                 end
             end
         end
+        
+local bagGui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui"):FindFirstChild("BagGui")
+if bagGui then
+    bagGui:Destroy()
+end
 
         
         for _, npc in pairs(workspace.Entities:GetChildren()) do
@@ -1175,16 +1185,25 @@ end)
                     
                     
                     
-local player = game.Players.LocalPlayer
-local character = workspace.Entities:FindFirstChild(player.Name)
-if not character then return end
 
-local torso = character:FindFirstChild("Torso")
-if torso and torso:IsA("BasePart") then
-    torso:Destroy() 
-    task.wait(2) 
-    
-end
+task.spawn(function()
+    while _G.FARM2_ENABLED do
+        local player = game.Players.LocalPlayer
+        local character = workspace.Entities:FindFirstChild(player.Name)
+        if not character then
+            task.wait(1)
+            continue
+        end
+
+        local torso = character:FindFirstChild("Torso")
+        if torso and torso:IsA("BasePart") then
+            torso:Destroy()
+            task.wait(2)
+        end
+        task.wait(1.5)
+    end
+end)
+
                 
                 
 
@@ -1194,11 +1213,7 @@ end
 while _G.FARM2_ENABLED do
     wait(0.5)
  
-local torso = character:FindFirstChild("Torso")
-if torso and torso:IsA("BasePart") then
-    torso:Destroy() 
 
-end
     local tweenService = game:GetService("TweenService")
     local character = workspace.Entities:FindFirstChild(game.Players.LocalPlayer.Name)
     if not character then continue end 
@@ -1485,4 +1500,3 @@ DCButton.MouseButton1Click:Connect(function()
     task.wait(2)
     DCButton.Text = "Discord"
 end)
-
