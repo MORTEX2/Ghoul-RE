@@ -1,20 +1,9 @@
-local HttpService = game:GetService("HttpService")
-local PastebinURL = "https://pastebin.com/raw/28huELby"
 
 local YOUTUBE_LINK = "https://www.youtube.com/@Mr._Stone"
 local DISCORD_LINK = "https://discord.gg/7pQPqrhUsW"
 
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 280, 0, 180)
-Frame.Position = UDim2.new(0.5, -140, 0.5, -90)
-Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-Frame.BorderSizePixel = 2
-Frame.BorderColor3 = Color3.fromRGB(15, 15, 15)
-Frame.Parent = ScreenGui
 
 task.spawn(function()
 
@@ -34,128 +23,6 @@ task.spawn(function()
     end
 end)
 
-
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 30)
-Title.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-Title.Text = " MORTEX - Hup"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 16
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Parent = Frame
-
-
-local CloseButton = Instance.new("TextButton")
-CloseButton.Size = UDim2.new(0, 25, 0, 25)
-CloseButton.Position = UDim2.new(1, -30, 0, 2)
-CloseButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseButton.Font = Enum.Font.GothamBold
-CloseButton.TextSize = 14
-CloseButton.Parent = Frame
-
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
-
-local KeyBox = Instance.new("TextBox")
-KeyBox.Size = UDim2.new(0.8, 0, 0, 30)
-KeyBox.Position = UDim2.new(0.1, 0, 0.3, 0)
-KeyBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-KeyBox.PlaceholderText = "Enter Key..."
-KeyBox.Font = Enum.Font.Gotham
-KeyBox.TextSize = 14
-KeyBox.Parent = Frame
-KeyBox.Text = ""
-
-
-
-local CheckButton = Instance.new("TextButton")
-CheckButton.Size = UDim2.new(0.8, 0, 0, 30)
-CheckButton.Position = UDim2.new(0.1, 0, 0.55, 0)
-CheckButton.BackgroundColor3 = Color3.fromRGB(60, 150, 60)
-CheckButton.Text = "Submit"
-CheckButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CheckButton.Font = Enum.Font.GothamBold
-CheckButton.TextSize = 14
-CheckButton.Parent = Frame
-
-
-local YTButton = Instance.new("TextButton")
-YTButton.Size = UDim2.new(0.4, 0, 0, 30)
-YTButton.Position = UDim2.new(0.05, 0, 0.8, 0)
-YTButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-YTButton.Text = "YouTube"
-YTButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-YTButton.Font = Enum.Font.GothamBold
-YTButton.TextSize = 14
-YTButton.Parent = Frame
-
-
-local DCButton = Instance.new("TextButton")
-DCButton.Size = UDim2.new(0.4, 0, 0, 30)
-DCButton.Position = UDim2.new(0.55, 0, 0.8, 0)
-DCButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-DCButton.Text = "Discord"
-DCButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-DCButton.Font = Enum.Font.GothamBold
-DCButton.TextSize = 14
-DCButton.Parent = Frame
-
-
-local UIS = game:GetService("UserInputService")
-local dragging, dragInput, dragStart, startPos
-
-Title.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = Frame.Position
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
-    end
-end)
-
-Title.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        dragInput = input
-    end
-end)
-
-UIS.InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        local delta = input.Position - dragStart
-        Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-
-local function getKeyFromPastebin()
-    local success, result = pcall(function()
-        return game:HttpGet(PastebinURL)
-    end)
-    if success then
-        local lines = result:split("\n")
-        return (lines[3] or ""):gsub("\r", "") 
-    else
-        return ""
-    end
-end
-
-
-CheckButton.MouseButton1Click:Connect(function()
-    local correctKey = getKeyFromPastebin()
-    if KeyBox.Text == correctKey or true then
-        CheckButton.Text = "✔ DONE"
-        task.wait(1)
-        ScreenGui:Destroy()
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 local StarterGui = game:GetService("StarterGui")
@@ -1478,12 +1345,7 @@ UIS.InputBegan:Connect(function(input, gameProcessed)
         ScreenGui.Enabled = not ScreenGui.Enabled
     end
 end)
-    else
-        CheckButton.Text = "❌ Wrong Key"
-        task.wait(1)
-        CheckButton.Text = "Submit"
-    end
-end)
+
 
 
 YTButton.MouseButton1Click:Connect(function()
